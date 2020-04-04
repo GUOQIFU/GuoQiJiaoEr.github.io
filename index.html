@@ -153,97 +153,34 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-sdfgujsdg" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Linux 网络编程相关错误" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/02/sdfgujsdg/">sdfgujsdg</a>
+      <a class="article-title" href="/2020/04/04/Linux%20%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3%E9%94%99%E8%AF%AF/">Linux 网络编程相关错误</a>
     </h1>
   
 
         
-        <a href="/2020/04/02/sdfgujsdg/" class="archive-article-date">
-  	<time datetime="2020-04-02T05:09:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-02</time>
+        <a href="/2020/04/04/Linux%20%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3%E9%94%99%E8%AF%AF/" class="archive-article-date">
+  	<time datetime="2020-04-04T02:33:57.849Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/02/sdfgujsdg/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-我的第一篇博客" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/02/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">我的第一篇博客</a>
-    </h1>
-  
-
-        
-        <a href="/2020/04/02/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" class="archive-article-date">
-  	<time datetime="2020-04-02T05:08:20.741Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <hr>
-<p>title: 我的第一篇博客<br>date: 2020-04-02 13:08:20<br>tags:<br>–</p>
-<p>##第一章</p>
-<p>目录</p>
-<p>##第二章</p>
-<p>内容</p>
-<p>##第三章</p>
-<p>结论</p>
-<p>-</p>
+        <h2 id="Linux-core-dumped-错误"><a href="#Linux-core-dumped-错误" class="headerlink" title="@[Linux core dumped 错误]"></a>@[Linux core dumped 错误]</h2><h1 id="1-core-dumped-错误"><a href="#1-core-dumped-错误" class="headerlink" title="1.core dumped 错误"></a>1.core dumped 错误</h1><p>这是很常见的一个错误，大都是对指针的操作不当，递归的的层次不清等等造成内存的溢出。在Linux中出现core dumped 的错误一般可以有以下的方法来解决。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">guoqi1@ubuntu:~/Desktop/socket$ ./serve </span><br><span class="line">**<span class="function">Segmentation <span class="title">fault</span> <span class="params">(core dumped)</span>**</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li>产生core文件命令 ：<br>ulimit -c unlimited   // 设置core大小为无限<br> ulimit unlimited   // 设置文件大小为无限<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">guoqi1@ubuntu:~/Desktop/socket$ **ulimit -c unlimited**</span><br><span class="line">guoqi1@ubuntu:~/Desktop/socket$ ./serve </span><br><span class="line"><span class="function">Segmentation <span class="title">fault</span> <span class="params">(core dumped)</span></span></span><br><span class="line">guoqi1@ubuntu:~/Desktop/socket$ ls</span><br><span class="line">client    client.o  makefile  serve1.c  serve.o  test1   wrap.h</span><br><span class="line">client.c  **core**       serve     serve.c   test     wrap.c  wrap.o</span><br><span class="line">guoqi1@ubuntu:~/Desktop/socket$</span><br></pre></td></tr></table></figure></li>
+<li>开启gdb 调试<br>gdb EXECUTALBE_FILE CORE_FILE </li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">guoqi1@ubuntu:~/Desktop/socket$ **gdb ./serve core**</span><br><span class="line">GNU gdb (Ubuntu 7.7.1-0ubuntu5~14.04.3) 7.7.1</span><br><span class="line">Copyright (C) <span class="number">2014</span> Free Software Foundation, Inc.</span><br><span class="line">License GPLv3+: GNU GPL version <span class="number">3</span> <span class="keyword">or</span> later &lt;http:<span class="comment">//gnu.org/licenses/gpl.html&gt;</span></span><br><span class="line">This is <span class="built_in">free</span> software: you are <span class="built_in">free</span> to change <span class="keyword">and</span> redistribute it.</span><br><span class="line">There is NO WARRANTY, to the extent permitted by law.  Type <span class="string">"show copying"</span></span><br><span class="line"><span class="keyword">and</span> <span class="string">"show warranty"</span> <span class="keyword">for</span> details.</span><br><span class="line">This GDB was configured as <span class="string">"i686-linux-gnu"</span>.</span><br><span class="line">Type <span class="string">"show configuration"</span> <span class="keyword">for</span> configuration details.</span><br><span class="line">For bug reporting instructions, please see:</span><br><span class="line">&lt;http:<span class="comment">//www.gnu.org/software/gdb/bugs/&gt;.</span></span><br><span class="line">Find the GDB manual <span class="keyword">and</span> other documentation resources online at:</span><br><span class="line">&lt;http:<span class="comment">//www.gnu.org/software/gdb/documentation/&gt;.</span></span><br><span class="line">For help, type <span class="string">"help"</span>.</span><br><span class="line">Type <span class="string">"apropos word"</span> to search <span class="keyword">for</span> commands related to <span class="string">"word"</span>...</span><br><span class="line">Reading symbols from ./serve...(no debugging symbols found)...done.</span><br><span class="line">[New LWP <span class="number">2886</span>]</span><br><span class="line">Core was generated by `./serve<span class="number">'.</span></span><br><span class="line">Program terminated with signal SIGSEGV, Segmentation fault.</span><br><span class="line">**#<span class="number">0</span>  <span class="number">0x0804894c</span> <span class="function">in <span class="title">Accept</span> <span class="params">()</span>**</span></span><br></pre></td></tr></table></figure>
+<p>这样就可以看见最后一行内存down掉的具体函数，具体位置，方便查找修改。</p>
 
       
 
@@ -256,7 +193,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/04/02/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">展开全文 >></a>
+          <a class="article-more-a" href="/2020/04/04/Linux%20%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3%E9%94%99%E8%AF%AF/">展开全文 >></a>
         </p>
       
 
