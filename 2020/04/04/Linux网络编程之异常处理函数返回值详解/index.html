@@ -6,17 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>sdfgujsdg | Hexo</title>
+  <title>Linux网络编程之异常处理函数返回值详解 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="乱花渐欲迷人眼">
+  <meta name="description" content="错误处理函数  在网络编程中，一些函数的属于慢速调用，对其作异常处理的时候需要避免其在正常进程阻塞的过程中被异常处理，需要对其作一些相关的信号判断。 1.int Accept(int fd,struct sockaddr *sock,socklen_t *sock_len)accept 是慢速调用处理函数，在错误管理中，在通信阻塞期间可能会存在异常断开，所以需要另外的处理。 12345678910">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sdfgujsdg">
-<meta property="og:url" content="http://yoursite.com/2020/04/02/sdfgujsdg/index.html">
+<meta property="og:title" content="Linux网络编程之异常处理函数返回值详解">
+<meta property="og:url" content="http://yoursite.com/2020/04/04/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="乱花渐欲迷人眼">
-<meta property="article:published_time" content="2020-04-02T05:09:19.000Z">
-<meta property="article:modified_time" content="2020-04-02T05:09:19.755Z">
-<meta property="article:author" content="郭 柒">
+<meta property="og:description" content="错误处理函数  在网络编程中，一些函数的属于慢速调用，对其作异常处理的时候需要避免其在正常进程阻塞的过程中被异常处理，需要对其作一些相关的信号判断。 1.int Accept(int fd,struct sockaddr *sock,socklen_t *sock_len)accept 是慢速调用处理函数，在错误管理中，在通信阻塞期间可能会存在异常断开，所以需要另外的处理。 12345678910">
+<meta property="article:published_time" content="2020-04-04T08:11:31.972Z">
+<meta property="article:modified_time" content="2020-04-04T08:12:09.858Z">
+<meta property="article:author" content="GUO-QI">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -49,7 +49,7 @@
 			  <img src="img/blog.jpg" class="js-avatar show">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">郭 柒</a></h1>
+		  <h1 class="header-author"><a href="/">GUO-QI</a></h1>
 		</hgroup>
 		
 
@@ -80,7 +80,7 @@
 		<nav class="header-nav">
 			<div class="social">
 				
-					<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
+					<a class="github" target="_blank" href="https://github.com/GuoQiJiaoEr" title="github"><i class="icon-github"></i></a>
 		        
 					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
 		        
@@ -107,7 +107,7 @@
 				<img src="img/blog.jpg" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">郭 柒</h1>
+			  <h1 class="header-author js-header-author">GUO-QI</h1>
 			</hgroup>
 			
 			
@@ -121,7 +121,7 @@
 			<nav class="header-nav">
 				<div class="social">
 					
-						<a class="github" target="_blank" href="#" title="github"><i class="icon-github"></i></a>
+						<a class="github" target="_blank" href="https://github.com/GuoQiJiaoEr" title="github"><i class="icon-github"></i></a>
 			        
 						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
 			        
@@ -153,27 +153,50 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-sdfgujsdg" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Linux网络编程之异常处理函数返回值详解" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      sdfgujsdg
+      Linux网络编程之异常处理函数返回值详解
     </h1>
   
 
+		<!--显示阅读次数-->
+		
+		  <br/>
+		  <a class="cloud-tie-join-count" href="javascript:void(0);" style="color:gray;font-size:14px;">
+		  <span class="icon-sort"></span>
+		  <span id="busuanzi_container_page_pv" style="color:#ef7522;font-size:14px;">
+					阅读数: <span id="busuanzi_value_page_pv"></span>次 &nbsp;&nbsp;
+		  </span>
+		  </a>
+		
+		<!--显示阅读次数完毕-->
         
-        <a href="/2020/04/02/sdfgujsdg/" class="archive-article-date">
-  	<time datetime="2020-04-02T05:09:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-02</time>
+        <a href="/2020/04/04/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%E8%AF%A6%E8%A7%A3/" class="archive-article-date">
+  	<time datetime="2020-04-04T08:11:31.972Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        
+        <h2 id="错误处理函数"><a href="#错误处理函数" class="headerlink" title="错误处理函数"></a>错误处理函数</h2><p>  在网络编程中，一些函数的属于慢速调用，对其作异常处理的时候需要避免其在正常进程阻塞的过程中被异常处理，需要对其作一些相关的信号判断。</p>
+<h2 id="1-int-Accept-int-fd-struct-sockaddr-sock-socklen-t-sock-len"><a href="#1-int-Accept-int-fd-struct-sockaddr-sock-socklen-t-sock-len" class="headerlink" title="1.int Accept(int fd,struct sockaddr *sock,socklen_t *sock_len)"></a>1.int Accept(int fd,struct sockaddr *sock,socklen_t *sock_len)</h2><p>accept 是慢速调用处理函数，在错误管理中，在通信阻塞期间可能会存在异常断开，所以需要另外的处理。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">int Accept(int fd,struct sockaddr *sock,socklen_t *sock_len)</span><br><span class="line">&#123;</span><br><span class="line">        int n;</span><br><span class="line">again:</span><br><span class="line">        <span class="keyword">if</span>((n = accept(fd,sock,sock_len))&lt;0)</span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">if</span>((errno == ECONNABORTED)||(errno == EINTR))//当函数处于阻塞期间，为了防止异常断开，添加信号中断判断函数。</span><br><span class="line">                        goto again;</span><br><span class="line">                <span class="keyword">else</span></span><br><span class="line">                        perr_exit(<span class="string">"accept error"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">return</span> n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-ssize-t-Read-int-fd-void-ptr-size-t-nbytes"><a href="#2-ssize-t-Read-int-fd-void-ptr-size-t-nbytes" class="headerlink" title="2.ssize_t Read(int fd,void *ptr,size_t nbytes)"></a>2.ssize_t Read(int fd,void *ptr,size_t nbytes)</h2><p>read 函数返回值详解：<br>1.return &gt; 0 ; 返回实际读到的字节数<br>2.return == 0；数据读到（文件，管道，socket）的末尾—对端关闭，（对端write关闭）<br>3.return = -1；异常情况<br>3.1 errno == EINTR 信号中断，重新启动 go to again;<br>3.2 errno == EAGAIN(EWOULDBLOCK) 非阻塞方式度，并且没有数据<br>3.3 其他值 出现错误，perror exit; </p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"> ssize_t Read(int fd,void *ptr,size_t nbytes)</span><br><span class="line">&#123;</span><br><span class="line">        ssize_t n;</span><br><span class="line">again:</span><br><span class="line">         <span class="keyword">if</span>((n=<span class="built_in">read</span>(fd,ptr,nbytes)) &lt;0)&#123;</span><br><span class="line">                 <span class="keyword">if</span>(errno == EINTR)</span><br><span class="line">                  goto again;</span><br><span class="line">                 <span class="keyword">else</span></span><br><span class="line">                 <span class="built_in">return</span> -1;</span><br><span class="line">                &#125;</span><br><span class="line">         <span class="built_in">return</span> n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-ssize-t-Write-int-fd-void-ptr-size-t-nbytes"><a href="#3-ssize-t-Write-int-fd-void-ptr-size-t-nbytes" class="headerlink" title="3.ssize_t Write(int fd,void *ptr,size_t nbytes)"></a>3.ssize_t Write(int fd,void *ptr,size_t nbytes)</h2><p>write 函数处理与read函数处理过程相似</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ssize_t Write(int fd,void *ptr,size_t nbytes)</span><br><span class="line">&#123;</span><br><span class="line">        ssize_t n;</span><br><span class="line">again:</span><br><span class="line">         <span class="keyword">if</span>((n = write(fd,ptr,nbytes)) &lt;0)&#123;</span><br><span class="line">                 <span class="keyword">if</span>(errno == EINTR)</span><br><span class="line">                         goto again;</span><br><span class="line"></span><br><span class="line">                 <span class="keyword">else</span></span><br><span class="line">                 <span class="built_in">return</span> -1;</span><br><span class="line">        &#125;</span><br><span class="line">     <span class="built_in">return</span> n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
       
 
       
@@ -186,7 +209,7 @@
             <span class="tooltip-content">
               <span class="tooltip-text">
                 <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>快乐生活，认真工作<i class="icon icon-quo-right"></i></p>
                   <div class="reward-box">
                     
                     
@@ -252,7 +275,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/04/02/sdfgujsdg/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/04/04/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%E8%AF%A6%E8%A7%A3/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -267,8 +290,8 @@
 <nav id="article-nav">
   
   
-    <a href="/2020/04/02/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">我的第一篇博客</div>
+    <a href="/2020/04/04/music%20test/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">music test</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -311,7 +334,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 郭 柒
+    		&copy; 2020 GUO-QI
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -332,7 +355,7 @@
 		toc_hide_index: true,
 		root: "/",
 		innerArchive: true,
-		showTags: false
+		showTags: true
 	}
 </script>
 
@@ -473,7 +496,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">快乐生活&lt;br&gt;认真工作&lt;br&gt;享受此刻这篇天地&lt;br&gt;</div>
   	  	
     	</section>
     
