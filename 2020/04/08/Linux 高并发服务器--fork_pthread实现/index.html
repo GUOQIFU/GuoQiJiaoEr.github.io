@@ -6,12 +6,16 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020/4 | Hexo</title>
+  <title>Linux 高并发服务器--fork_pthread实现 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2020/04/index.html">
+  <meta name="description" content="1.多进程并发服务器   子进程来源于父进程，通俗的来讲，它是父进程的一个复制品。子进程完全复制了父进程的资源，包括进程上下文、内存信息、工作目录等信息。同时操作系统也会给子进程分配内存空间和调度资源。父进程和子进程的区分主要是靠fork（）函数的返回值来进行。  1.return 0 ；成功创建子进程，进入到子进程中相关操作   2.return-1；创建子进程失败   3.return (子进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 高并发服务器--fork_pthread实现">
+<meta property="og:url" content="http://yoursite.com/2020/04/08/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8--fork_pthread%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.多进程并发服务器   子进程来源于父进程，通俗的来讲，它是父进程的一个复制品。子进程完全复制了父进程的资源，包括进程上下文、内存信息、工作目录等信息。同时操作系统也会给子进程分配内存空间和调度资源。父进程和子进程的区分主要是靠fork（）函数的返回值来进行。  1.return 0 ；成功创建子进程，进入到子进程中相关操作   2.return-1；创建子进程失败   3.return (子进">
+<meta property="article:published_time" content="2020-04-08T11:53:32.099Z">
+<meta property="article:modified_time" content="2020-04-08T11:53:33.692Z">
 <meta property="article:author" content="GUO-QI">
 <meta name="twitter:card" content="summary">
   
@@ -155,211 +159,181 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-Linux 高并发服务器--fork_pthread实现" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Linux 高并发服务器--fork_pthread实现
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/08/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8--fork_pthread%E5%AE%9E%E7%8E%B0/" class="archive-article-date">
+
+		<!--显示阅读次数-->
+		
+		  <br/>
+		  <a class="cloud-tie-join-count" href="javascript:void(0);" style="color:gray;font-size:14px;">
+		  <span class="icon-sort"></span>
+		  <span id="busuanzi_container_page_pv" style="color:#ef7522;font-size:14px;">
+					阅读数: <span id="busuanzi_value_page_pv"></span>次 &nbsp;&nbsp;
+		  </span>
+		  </a>
+		
+		<!--显示阅读次数完毕-->
+        
+        <a href="/2020/04/08/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8--fork_pthread%E5%AE%9E%E7%8E%B0/" class="archive-article-date">
   	<time datetime="2020-04-08T11:53:32.099Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-08</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/08/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8--fork_pthread%E5%AE%9E%E7%8E%B0/">Linux 高并发服务器--fork_pthread实现</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-多进程并发服务器"><a href="#1-多进程并发服务器" class="headerlink" title="1.多进程并发服务器"></a>1.多进程并发服务器</h2><p>   子进程来源于父进程，通俗的来讲，它是父进程的一个复制品。子进程完全复制了父进程的资源，包括进程上下文、内存信息、工作目录等信息。同时操作系统也会给子进程分配内存空间和调度资源。父进程和子进程的区分主要是靠fork（）函数的返回值来进行。</p>
+<ul>
+<li><p>1.return 0 ；成功创建子进程，进入到子进程中相关操作 </p>
+</li>
+<li><p>2.return-1；创建子进程失败 </p>
+</li>
+<li><p>3.return (子进程)pid; 也即是（&gt;0）进入到父进程，返回值为子进程的pid;此时可进入到父进程相关操作<br>在Linux中实现多进程并发服务器，值得注意的一个问题就是子进程的回收问题，为了避免僵尸进程的出现，占用大量的系统资源，此处用signal()信号中断处理函数进行回收。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;strings.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">"wrap.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SERV_IP <span class="meta-string">"127.0.0.1"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SERV_PORT 6666</span></span><br><span class="line"><span class="comment">//"192.168.32.30"</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">wait_child</span><span class="params">(<span class="keyword">int</span> signo)</span><span class="comment">//子进程回收函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        <span class="keyword">while</span> (waitpid(<span class="number">0</span>,<span class="literal">NULL</span>,WNOHANG) &gt; <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        <span class="keyword">pid_t</span> pid;</span><br><span class="line">        <span class="keyword">int</span> sfd,cfd;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">serv_addr</span> , <span class="title">clie_addr</span>;</span></span><br><span class="line">        <span class="keyword">socklen_t</span> clie_addr_len,serv_addr_len;</span><br><span class="line">        <span class="built_in">memset</span>(&amp;serv_addr,<span class="number">0</span>,<span class="keyword">sizeof</span>(serv_addr));</span><br><span class="line">        <span class="built_in">memset</span>(&amp;clie_addr,<span class="number">0</span>,<span class="keyword">sizeof</span>(clie_addr));</span><br><span class="line">        <span class="keyword">char</span> buf[BUFSIZ];</span><br><span class="line">        <span class="keyword">char</span> clie_IP[BUFSIZ];</span><br><span class="line">        <span class="keyword">int</span> n;</span><br><span class="line">        <span class="keyword">int</span> i;</span><br><span class="line">        sfd =  Socket(AF_INET,SOCK_STREAM,<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">         serv_addr.sin_family = AF_INET;<span class="comment">//ipv4</span></span><br><span class="line">         serv_addr.sin_port = htons(SERV_PORT);</span><br><span class="line">         serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">         <span class="comment">//inet_pton(AF_INET,"192.168.32.30",&amp;serv_addr.sin_addr.s_addr);</span></span><br><span class="line">         serv_addr_len = <span class="keyword">sizeof</span>(serv_addr);</span><br><span class="line">         Bind(sfd, (struct sockaddr*)&amp;serv_addr, serv_addr_len);</span><br><span class="line"></span><br><span class="line">         Listen(sfd,<span class="number">128</span>);</span><br><span class="line">         <span class="built_in">printf</span>(<span class="string">"wait for client connect"</span>);</span><br><span class="line">         <span class="keyword">while</span>(<span class="number">1</span>)<span class="comment">//创建子进程  </span></span><br><span class="line">         &#123;</span><br><span class="line">                 clie_addr_len = <span class="keyword">sizeof</span>(clie_addr);</span><br><span class="line">                 cfd = Accept(sfd,(struct sockaddr*)&amp;clie_addr,&amp;clie_addr_len);</span><br><span class="line">                 <span class="built_in">printf</span>(<span class="string">"cfd =  %d\n"</span>,cfd);</span><br><span class="line">                 <span class="built_in">printf</span>(<span class="string">"cliet IP:%s,cliet port:%d\n"</span>,</span><br><span class="line">                 inet_ntop(AF_INET,</span><br><span class="line">                 &amp;clie_addr.sin_addr.s_addr,</span><br><span class="line">                 clie_IP,</span><br><span class="line">                 <span class="keyword">sizeof</span>(clie_IP)),</span><br><span class="line">                 ntohs(clie_addr.sin_port));</span><br><span class="line"></span><br><span class="line">                 pid = fork();</span><br><span class="line">                <span class="keyword">if</span> (pid &lt;<span class="number">0</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                         perror(<span class="string">"fork error"</span>);</span><br><span class="line">                         <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(pid ==<span class="number">0</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                         close(sfd);</span><br><span class="line">                         <span class="keyword">break</span>;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                        close(cfd);</span><br><span class="line">                        signal(SIGCHLD,wait_child);</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(pid ==<span class="number">0</span>)<span class="comment">//子进程操作</span></span><br><span class="line">        &#123;</span><br><span class="line">                <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                        n = Read(cfd,buf,<span class="keyword">sizeof</span>(buf));</span><br><span class="line">                        <span class="keyword">if</span>(n == <span class="number">0</span>)</span><br><span class="line">                        &#123;</span><br><span class="line">                                close(cfd);</span><br><span class="line">                                <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">                        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(n == <span class="number">-1</span>)</span><br><span class="line">                        &#123;</span><br><span class="line">                                perror(<span class="string">"read error"</span>);</span><br><span class="line">                                <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">                        &#123;</span><br><span class="line">                                perror(<span class="string">"read error"</span>);</span><br><span class="line">                                <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">                        &#125;<span class="keyword">else</span></span><br><span class="line">                        &#123;</span><br><span class="line">                                <span class="keyword">for</span>(i = <span class="number">0</span>;i &lt; n;i++)</span><br><span class="line">                                &#123;</span><br><span class="line">                                        buf[i] = <span class="built_in">toupper</span>(buf[i]);</span><br><span class="line">                                &#125;</span><br><span class="line">                                        write(cfd,buf,n);</span><br><span class="line">                                        write(STDOUT_FILENO,buf,n);</span><br><span class="line">                        &#125;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-多线程并发服务器"><a href="#2-多线程并发服务器" class="headerlink" title="2.多线程并发服务器"></a>2.多线程并发服务器</h2><p>多线程和多进程之间的区别在不过多讲述，一句话“进程是资源分配的最小单位，线程是CPU调度的最小单位”，就表明了最大的区别在与系统资源利用效率的不同。多进程占用内存多，切换复杂，CPU利用率低，但是它编程相对来比较简单，容易调试，同时可靠性也比多线程高，毕竟多个进程之间是不会产生影响的；而多线程占用内存少，切换简单，CPU利用率高，是开发高性能并发系统的首选。<br>Linux 多线程主要是用 pthread 函数来实现的。主要用到：<br>1.pthread_create（）函数，其原型如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pthread_create(<span class="keyword">pthread_t</span> *thread, <span class="keyword">const</span> <span class="keyword">pthread_attr_t</span> *attr,</span><br><span class="line">                            <span class="keyword">void</span> *(*start_routine) (<span class="keyword">void</span> *), <span class="keyword">void</span> *arg);</span><br></pre></td></tr></table></figure>
+<p>参数依次为：线程id，线程参数，入口函数，线程入口函数的参数名字<br>特别注意的是(void *)类型指针，表示无类型指针，在传递的时候需要强转。</p>
+</li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/socket.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;arpa/inet.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">"wrap.h"</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXSIAE 10240</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SERV_IP <span class="meta-string">"127.0.0.1"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> SERV_PORT 6666</span></span><br><span class="line"><span class="comment">//"192.168.32.30"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*自定义一个结构体，将sockaddr_in与cfd捆绑*/</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">s_info</span>&#123;</span></span><br><span class="line">                <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">clie_addr</span>;</span></span><br><span class="line">                <span class="keyword">int</span> connectfd;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> *<span class="title">do_work</span><span class="params">(<span class="keyword">void</span> *arg)</span><span class="comment">//子线程处理函数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">int</span> n,i;</span><br><span class="line">                <span class="keyword">char</span> buf[MAXSIAE];</span><br><span class="line">                <span class="keyword">char</span> str[INET_ADDRSTRLEN];<span class="comment">//INET_ADDRSTRLEN 16</span></span><br><span class="line"></span><br><span class="line">                <span class="class"><span class="keyword">struct</span> <span class="title">s_info</span> *<span class="title">ts</span> = (<span class="title">struct</span> <span class="title">s_info</span>*)<span class="title">arg</span>;</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">                &#123;</span><br><span class="line">                                n = Read(ts-&gt;connectfd,buf,MAXSIAE);<span class="comment">//读客户端</span></span><br><span class="line">                                <span class="keyword">if</span>(n == <span class="number">0</span>)</span><br><span class="line">                                &#123;</span><br><span class="line">                                        <span class="built_in">printf</span>(<span class="string">"the cline %d closed!"</span>,ts-&gt;connectfd);</span><br><span class="line">                                        <span class="keyword">break</span>;</span><br><span class="line">                                &#125;</span><br><span class="line"></span><br><span class="line">                                <span class="keyword">for</span>(i = <span class="number">0</span>;i &lt; n;i++)</span><br><span class="line">                                        &#123;</span><br><span class="line">                                                buf[i] = <span class="built_in">toupper</span>(buf[i]);</span><br><span class="line">                                        &#125;</span><br><span class="line">                                write(ts-&gt;connectfd,buf,n);</span><br><span class="line">                                write(STDOUT_FILENO,buf,n);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                Close(ts-&gt;connectfd);</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">                <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">serv_addr</span> , <span class="title">clie_addr</span>;</span></span><br><span class="line">                <span class="keyword">int</span> sfd,cfd;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">socklen_t</span> clie_addr_len,serv_addr_len;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">char</span> clie_IP[BUFSIZ];</span><br><span class="line">                <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">pthread_t</span> tid;<span class="comment">//创建线程</span></span><br><span class="line">                <span class="class"><span class="keyword">struct</span> <span class="title">s_info</span> <span class="title">ts</span>[256];</span><span class="comment">//最大线程数创建结构体数组</span></span><br><span class="line"></span><br><span class="line">                 sfd =  Socket(AF_INET,SOCK_STREAM,<span class="number">0</span>);</span><br><span class="line">                 bzero(&amp;serv_addr,<span class="keyword">sizeof</span>(serv_addr));<span class="comment">//地址结构初始化</span></span><br><span class="line">                 serv_addr.sin_family = AF_INET;<span class="comment">//ipv4</span></span><br><span class="line">                 serv_addr.sin_port = htons(SERV_PORT);</span><br><span class="line">                 serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">                 <span class="comment">//inet_pton(AF_INET,"192.168.32.30",&amp;serv_addr.sin_addr.s_addr);</span></span><br><span class="line">                 serv_addr_len = <span class="keyword">sizeof</span>(serv_addr);</span><br><span class="line"></span><br><span class="line">                 Bind(sfd, (struct sockaddr*)&amp;serv_addr, serv_addr_len);</span><br><span class="line">                <span class="comment">//printf("wait for client connect:::");</span></span><br><span class="line">                 Listen(sfd,<span class="number">128</span>);</span><br><span class="line">                 <span class="built_in">printf</span>(<span class="string">"wait for client connect::\n"</span>);</span><br><span class="line"></span><br><span class="line">         <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">         &#123;</span><br><span class="line">                 clie_addr_len = <span class="keyword">sizeof</span>(clie_addr);</span><br><span class="line">                 cfd = Accept(sfd,(struct sockaddr*)&amp;clie_addr,&amp;clie_addr_len);<span class="comment">//阻塞监听</span></span><br><span class="line">                 <span class="built_in">printf</span>(<span class="string">"cfd =  %d\n"</span>,cfd);                 </span><br><span class="line">                ts[i].clie_addr = clie_addr;<span class="comment">//取出接收到的客户端addr结构体</span></span><br><span class="line">                ts[i].connectfd = cfd;<span class="comment">//文件描述符</span></span><br><span class="line">                <span class="comment">//传递到pthead_create 子线程执行</span></span><br><span class="line">                </span><br><span class="line">               <span class="comment">//线程管理，当线程达到最大数时候进行处理</span></span><br><span class="line">                pthread_create(&amp;tid,<span class="literal">NULL</span>,do_work,(<span class="keyword">void</span>*)&amp;ts[i]);</span><br><span class="line">                pthread_detach(tid);<span class="comment">//子线程分离，防止僵尸线程产生</span></span><br><span class="line">                i++;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：本简易服务器另外采用wrap错误处理函数，为了使得主要代码逻辑更加清晰</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>快乐生活，认真工作<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/04/08/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8--fork_pthread%E5%AE%9E%E7%8E%B0/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/08/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8%20select_poll%E5%AE%9E%E7%8E%B0/" class="archive-article-date">
-  	<time datetime="2020-04-08T11:52:46.067Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-08</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/04/08/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8%20select_poll%E5%AE%9E%E7%8E%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux 高并发服务器 select_poll实现</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/08/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8%20select_poll%E5%AE%9E%E7%8E%B0/">Linux 高并发服务器 select_poll实现</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/04/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%E8%AF%A6%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2020-04-04T08:11:31.972Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/04/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%E8%AF%A6%E8%A7%A3/">Linux网络编程之异常处理函数返回值详解</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/04/music%20test/" class="archive-article-date">
-  	<time datetime="2020-04-04T03:51:18.868Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/04/music%20test/">music test</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/04/hexo%20%E7%9B%B8%E5%85%B3%E9%94%99%E8%AF%AF/" class="archive-article-date">
-  	<time datetime="2020-04-04T02:45:41.484Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/04/hexo%20%E7%9B%B8%E5%85%B3%E9%94%99%E8%AF%AF/">hexo 相关错误</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/04/Linux%20%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3%E9%94%99%E8%AF%AF/" class="archive-article-date">
-  	<time datetime="2020-04-04T02:33:57.849Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/04/Linux%20%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3%E9%94%99%E8%AF%AF/">Linux 网络编程相关错误</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/02/hello-world/" class="archive-article-date">
-  	<time datetime="2020-04-02T04:59:19.804Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/02/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -382,8 +356,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
