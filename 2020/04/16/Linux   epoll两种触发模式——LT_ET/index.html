@@ -6,14 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020 | Hexo</title>
+  <title>Linux   epoll两种触发模式——LT_ET | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2020/index.html">
+  <meta name="description" content="epoll 两种触发模式epoll有两种触发模式，分别为LT水平触发，ET边沿触发。 12event.events &#x3D; EPOLLIN | EPOLLET;&#x2F;&#x2F;ET 边沿触发模式event.events &#x3D; EPOLLIN;          &#x2F;&#x2F;默认 LT触发模式 epoll的两种触发模式会在epoll_wait（）函数处对读取缓冲区有不用的处理方式。1.LT水平触发（默认）：当缓存区的数据没有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux   epoll两种触发模式——LT_ET">
+<meta property="og:url" content="http://yoursite.com/2020/04/16/Linux%20%20%20epoll%E4%B8%A4%E7%A7%8D%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%BC%8F%E2%80%94%E2%80%94LT_ET/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="epoll 两种触发模式epoll有两种触发模式，分别为LT水平触发，ET边沿触发。 12event.events &#x3D; EPOLLIN | EPOLLET;&#x2F;&#x2F;ET 边沿触发模式event.events &#x3D; EPOLLIN;          &#x2F;&#x2F;默认 LT触发模式 epoll的两种触发模式会在epoll_wait（）函数处对读取缓冲区有不用的处理方式。1.LT水平触发（默认）：当缓存区的数据没有">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200416201134108.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0dKUUpGSg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020041620100855.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0dKUUpGSg==,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2020-04-16T12:31:28.564Z">
+<meta property="article:modified_time" content="2020-04-16T12:31:59.196Z">
 <meta property="article:author" content="GUO-QI">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200416201134108.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0dKUUpGSg==,size_16,color_FFFFFF,t_70">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -155,238 +162,183 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Linux   epoll两种触发模式——LT_ET" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/16/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E2%80%94%E2%80%94%20epoll%20%E5%AE%9E%E7%8E%B0/" class="archive-article-date">
-  	<time datetime="2020-04-16T12:35:36.956Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-16</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/16/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E2%80%94%E2%80%94%20epoll%20%E5%AE%9E%E7%8E%B0/">Linux 高并发服务器—— epoll 实现</a>
+    <h1 class="article-title" itemprop="name">
+      Linux   epoll两种触发模式——LT_ET
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/16/Linux%20%20%20epoll%E4%B8%A4%E7%A7%8D%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%BC%8F%E2%80%94%E2%80%94LT_ET/" class="archive-article-date">
+		<!--显示阅读次数-->
+		
+		  <br/>
+		  <a class="cloud-tie-join-count" href="javascript:void(0);" style="color:gray;font-size:14px;">
+		  <span class="icon-sort"></span>
+		  <span id="busuanzi_container_page_pv" style="color:#ef7522;font-size:14px;">
+					阅读数: <span id="busuanzi_value_page_pv"></span>次 &nbsp;&nbsp;
+		  </span>
+		  </a>
+		
+		<!--显示阅读次数完毕-->
+        
+        <a href="/2020/04/16/Linux%20%20%20epoll%E4%B8%A4%E7%A7%8D%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%BC%8F%E2%80%94%E2%80%94LT_ET/" class="archive-article-date">
   	<time datetime="2020-04-16T12:31:28.564Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-16</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/16/Linux%20%20%20epoll%E4%B8%A4%E7%A7%8D%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%BC%8F%E2%80%94%E2%80%94LT_ET/">Linux   epoll两种触发模式——LT_ET</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="epoll-两种触发模式"><a href="#epoll-两种触发模式" class="headerlink" title="epoll 两种触发模式"></a>epoll 两种触发模式</h2><p>epoll有两种触发模式，分别为LT水平触发，ET边沿触发。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">event.events = EPOLLIN | EPOLLET;<span class="comment">//ET 边沿触发模式</span></span><br><span class="line">event.events = EPOLLIN;          <span class="comment">//默认 LT触发模式</span></span><br></pre></td></tr></table></figure>
+<p>epoll的两种触发模式会在epoll_wait（）函数处对读取缓冲区有不用的处理方式。<br><strong>1.LT水平触发（默认）：当缓存区的数据没有被一次性读取完，那么epoll_wait（）函数会非阻塞的进行再次读取，直至读写缓存区的数据被读取完成。<br>2.ET边沿触发：每当进行一次读取操作后，epoll_wait()函数就会堵塞，直至下一次缓存区数据的写入，才会在此的触发读取操作。</strong><br><strong>区别：对于LT模式，保证了对数据的完整性读取，但是对一些不重要的不必要的数据来说，会加大内核对epoll_wait()函数的调用，加大开销。对于ET模式，可以在程序中设定读取的关键信息段，从而来减轻内核的开销，效率而言相比LT来说较高。但是值得注意的是读取缓存区需要及时将多余的信息清理掉，保证下一次读取的可靠性。</strong></p>
+<h2 id="两种触发模式简单示例："><a href="#两种触发模式简单示例：" class="headerlink" title="两种触发模式简单示例："></a>两种触发模式简单示例：</h2><p>1.LT水平触发：每次读取的数据为写入的一半。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;strings.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/epoll.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAXSIZELINE 10</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> pfd[<span class="number">2</span>];<span class="comment">//创建管道准备</span></span><br><span class="line">	<span class="keyword">int</span> efd,i;</span><br><span class="line">	<span class="keyword">pid_t</span> pid;</span><br><span class="line">	<span class="keyword">char</span> buf[MAXSIZELINE];</span><br><span class="line">	<span class="keyword">char</span> ch = <span class="string">'1'</span>;</span><br><span class="line">	pipe(pfd);<span class="comment">//创建管道</span></span><br><span class="line">	</span><br><span class="line">	pid = fork();</span><br><span class="line">	<span class="keyword">if</span>(pid == <span class="number">0</span>)<span class="comment">//子进程 写</span></span><br><span class="line">	&#123;</span><br><span class="line">		close(pfd[<span class="number">0</span>]);<span class="comment">//关闭 读</span></span><br><span class="line">		<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">for</span>(i = <span class="number">0</span>; i &lt; MAXSIZELINE / <span class="number">2</span>;i++)</span><br><span class="line">				buf[i] = ch;</span><br><span class="line">			ch++;</span><br><span class="line">			<span class="keyword">for</span>(i; i &lt; MAXSIZELINE;i++)</span><br><span class="line">				buf[i] = ch;</span><br><span class="line">			ch++;</span><br><span class="line">			</span><br><span class="line">			write(pfd[<span class="number">1</span>],buf,MAXSIZELINE);<span class="comment">//</span></span><br><span class="line">			sleep(<span class="number">3</span>);<span class="comment">//每次休眠3秒再次写入</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"write again!\n"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">			close(pfd[<span class="number">1</span>]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(pid &gt; <span class="number">0</span>)<span class="comment">//父进程 读</span></span><br><span class="line">	&#123;</span><br><span class="line">       	close(pfd[<span class="number">1</span>]);</span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> <span class="title">event</span>;</span></span><br><span class="line">		<span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> <span class="title">resevent</span>[<span class="title">MAXSIZELINE</span>];</span></span><br><span class="line">		<span class="keyword">int</span> res , len;</span><br><span class="line">		efd = epoll_create(MAXSIZELINE);</span><br><span class="line">		<span class="comment">//event.events = EPOLLIN | EPOLLET;//ET 边沿触发模式</span></span><br><span class="line">		event.events = EPOLLIN;          <span class="comment">//默认 LT触发模式 </span></span><br><span class="line">		event.data.fd = pfd[<span class="number">0</span>];</span><br><span class="line">		epoll_ctl(efd,EPOLL_CTL_ADD,pfd[<span class="number">0</span>],&amp;event);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"epoll_wait begin \n"</span>);</span><br><span class="line">		<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">		    <span class="built_in">printf</span>(<span class="string">"epoll_wait again \n"</span>);</span><br><span class="line">			res = epoll_wait(efd,resevent,MAXSIZELINE,<span class="number">-1</span>);</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"res = %d"</span>,res);</span><br><span class="line">                        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">			<span class="keyword">if</span>(resevent[<span class="number">0</span>].data.fd == pfd[<span class="number">0</span>])</span><br><span class="line">			&#123;</span><br><span class="line">				len = read(pfd[<span class="number">0</span>],buf,MAXSIZELINE/<span class="number">2</span>);<span class="comment">//测试触发模式，只读一半的数据，留一半在缓冲区内</span></span><br><span class="line">				write(STDOUT_FILENO,buf,len);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-          
+<h2 id="两种模式分别的运行结果"><a href="#两种模式分别的运行结果" class="headerlink" title="两种模式分别的运行结果"></a>两种模式分别的运行结果</h2><h2 id="1-LT模式："><a href="#1-LT模式：" class="headerlink" title="1.LT模式："></a>1.LT模式：</h2><p>每次写入10个字符，1111122222，按照LT模式触发，分为两次读取，epoll_wait()在第二次读取时没有发生阻塞，读取余下部分的数据。<br><img src="https://img-blog.csdnimg.cn/20200416201134108.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0dKUUpGSg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="2-ET模式"><a href="#2-ET模式" class="headerlink" title="2.ET模式"></a>2.ET模式</h2><p>每次同样写入10个字符，1111122222，按照ET模式触发，分为两次读取epoll_wait()在第二次读取时发生了阻塞，当等到write 再次写入的时候，依次读取余下部分的数据。<br><img src="https://img-blog.csdnimg.cn/2020041620100855.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0dKUUpGSg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
 
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>快乐生活，认真工作<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/04/16/Linux%20%20%20epoll%E4%B8%A4%E7%A7%8D%E8%A7%A6%E5%8F%91%E6%A8%A1%E5%BC%8F%E2%80%94%E2%80%94LT_ET/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/08/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8--fork_pthread%E5%AE%9E%E7%8E%B0/" class="archive-article-date">
-  	<time datetime="2020-04-08T11:53:32.099Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-08</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2020/04/16/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E2%80%94%E2%80%94%20epoll%20%E5%AE%9E%E7%8E%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Linux 高并发服务器—— epoll 实现
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/04/08/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8--fork_pthread%E5%AE%9E%E7%8E%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux 高并发服务器--fork_pthread实现</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/08/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8--fork_pthread%E5%AE%9E%E7%8E%B0/">Linux 高并发服务器--fork_pthread实现</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/08/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8%20select_poll%E5%AE%9E%E7%8E%B0/" class="archive-article-date">
-  	<time datetime="2020-04-08T11:52:46.067Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/08/Linux%20%E9%AB%98%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8%20select_poll%E5%AE%9E%E7%8E%B0/">Linux 高并发服务器 select_poll实现</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/04/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%E8%AF%A6%E8%A7%A3/" class="archive-article-date">
-  	<time datetime="2020-04-04T08:11:31.972Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/04/Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E4%B9%8B%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC%E8%AF%A6%E8%A7%A3/">Linux网络编程之异常处理函数返回值详解</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/04/music%20test/" class="archive-article-date">
-  	<time datetime="2020-04-04T03:51:18.868Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/04/music%20test/">music test</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/04/hexo%20%E7%9B%B8%E5%85%B3%E9%94%99%E8%AF%AF/" class="archive-article-date">
-  	<time datetime="2020-04-04T02:45:41.484Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/04/hexo%20%E7%9B%B8%E5%85%B3%E9%94%99%E8%AF%AF/">hexo 相关错误</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/04/04/Linux%20%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3%E9%94%99%E8%AF%AF/" class="archive-article-date">
-  	<time datetime="2020-04-04T02:33:57.849Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-04-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/04/04/Linux%20%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9B%B8%E5%85%B3%E9%94%99%E8%AF%AF/">Linux 网络编程相关错误</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -409,8 +361,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
